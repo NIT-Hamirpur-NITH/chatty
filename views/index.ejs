@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include partials/templates/head.ejs %>
+</head>
+
+<body>
+
+<div class="chatty">
+  Chatty
+</div>
+
+<div class="chatArea">
+
+  <div id='names'>
+
+  </div>
+
+  <div id='messages'>
+  </div>
+
+</div>
+
+<div class="inputSec">
+
+  <input type="text" id="inputMessage">
+  <button id="submit"> Send </button>
+
+</div>
+
+<div id="info"></div>
+
+<% include partials/templates/defaultJS.ejs %>
+<% include partials/templates/chatty.ejs %>
+
+</body>
+
+</html>

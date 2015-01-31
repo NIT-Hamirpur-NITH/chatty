@@ -1,0 +1,148 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('chatty:server');
+var http = require('http');
+var redis = require('redis');
+var redisClient = redis.createClient();
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server and connect that to sochet.io.
+ */
+
+var server = http.createServer(app);
+var io = require('socket.io')(server);
+
+
+redisClient.flushall();
+
+/**
+  * The chat server code
+  */
+
+io.sockets.on('connection', function(client) {
+  console.log("Client connected");
+
+  //  when a user joins
+  client.on('join', function(data) {
+    client._name = data.name;
+    console.log(data.name + ' joined.');
+    client.broadcast.emit('newUser', data);
+    redisClient.sadd('users', data.name);
+    redisClient.smembers('users', function(err, members) {
+      console.log(members);
+      client.emit('joined', members);
+    });
+    redisClient.lrange('messages', 0, -1, function(err, messages) {
+       console.log('messages : ' + messages);
+       if(messages.length > 0) {
+        messages = messages.reverse();
+        messages.forEach(function(element, index){
+          var data = JSON.parse(element);
+          console.log(data);
+          client.emit('newMessage', data);
+        });
+      }
+    });
+  });
+
+  // when there is a message
+  client.on('message', function(data) {
+    console.log(data.messager + ' : ' + data.message);
+    var dataStr = JSON.stringify(data);
+    redisClient.lpush('messages', dataStr, function(err, response) {
+      redisClient.ltrim('messages', 0, 19);
+      console.log(response);
+    });
+    client.broadcast.emit('newMessage', data);
+    client.emit('messageAck', data);
+  });
+
+  // when a client disconnects
+  client.on('disconnect', function() {
+    console.log(client._name + " left the show.");
+    redisClient.srem('users', client._name);
+    client.broadcast.emit('userLeft', {name : client._name});
+  });
+
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

@@ -1,0 +1,65 @@
+* {
+  margin: 0em;
+  padding: 0em;
+}
+
+.chatty {
+  font-size: 5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.chatArea {
+  display: flex;
+  height : 450px;
+  box-sizing : border-box;
+  border-bottom: 1px gray solid;
+  border-top: 1px gray solid;
+}
+
+.chatArea #names {
+  width : 10%;
+  padding: 1em;
+  box-sizing : border-box;
+  text-align: left;
+  border-right: 1px gray solid;
+  overflow : scroll;
+}
+
+.chatArea #messages {
+  width : 90%;
+  padding: 1em 2em;
+  text-align: left;
+  box-sizing : border-box;
+  overflow: scroll;
+}
+
+#messages .messager {
+  display: inline-block;
+  text-align: right;
+  width:10%;
+  box-sizing : border-box;
+}
+
+#messages .message {
+  display: inline-block;
+  text-align: left;
+  width:90%;
+  padding-left: 0.5em;
+  box-sizing : border-box;
+}
+
+.inputSec {
+  display: flex;
+  box-sizing : border-box;
+}
+
+.inputSec #inputMessage {
+  width: 85%;
+  box-sizing : border-box;
+}
+
+.inputSec #submit {
+  width: 15%;
+  box-sizing : border-box;
+}
