@@ -23,7 +23,7 @@
   box-sizing : border-box;
   text-align: left;
   border-right: 1px gray solid;
-  overflow : scroll;
+  overflow : auto;
 }
 
 .chatArea #messages {
@@ -31,7 +31,7 @@
   padding: 1em 2em;
   text-align: left;
   box-sizing : border-box;
-  overflow: scroll;
+  overflow: auto;
 }
 
 #messages .messager {

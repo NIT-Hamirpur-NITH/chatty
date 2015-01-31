@@ -18,6 +18,10 @@ function addMessage(data) {
   message.className = 'message';
   message.innerHTML = data.message;
   messages.appendChild(message);
+  var scrollObj = document.getElementById('messages');
+  scrollObj.scrollTop = scrollObj.scrollHeight;
+  var inputObj = document.getElementById('inputMessage');
+  inputObj.value = '';
 }
 
 function removeUser(name) {
@@ -29,13 +33,21 @@ function removeUser(name) {
 window.onload = function() {
   console.log('Connected');
 
-  var server = io.connect('http://172.16.23.245:3000');
+  var server = io.connect('http://172.16.21.4:3000');
 
   // Get the nickname
   var nick = '';
   while (nick === '') {
     nick = prompt('To join the conversation enter your nickname: ');
   }
+
+  var messageObj = document.getElementById('inputMessage');
+  messageObj.focus();
+  messageObj.addEventListener('keydown',function(event){
+    if(event.keyCode == 13) {
+      send.click();
+    }
+  });
 
     // tell the server you want to join the server
   server.emit('join', {name : nick});
