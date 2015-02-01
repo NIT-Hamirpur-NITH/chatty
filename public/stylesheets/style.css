@@ -85,6 +85,12 @@ body {
   width: 100%;
 }
 
+#client {
+  font-family: "Ubuntu";
+  color : gray;
+  padding-left: 1em;
+  border-right: 1px lightgray solid;
+}
 
 /*
 .inputSec #inputMessage {

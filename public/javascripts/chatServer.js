@@ -5,6 +5,11 @@ function addClientName(name) {
   newName.id = name;
   newName.innerHTML = name;
   names.appendChild(newName);
+  var infoTag = document.getElementById('info');
+  var clientAdded = document.createElement('div');
+  clientAdded.id = "client";
+  clientAdded.innerHTML = name + ' is online';
+  infoTag.appendChild(clientAdded);
 }
 
 
@@ -23,20 +28,23 @@ function addMessage(data) {
   messages.appendChild(row);
   var scrollObj = document.getElementById('messages');
   scrollObj.scrollTop = scrollObj.scrollHeight;
-  var inputObj = document.getElementById('inputMessage');
-  inputObj.value = '';
 }
 
 function removeUser(name) {
   var names = document.getElementById('names');
   var user = document.getElementById(name);
   names.removeChild(user);
+  var infoTag = document.getElementById('info');
+  var clientLeft = document.createElement('div');
+  clientLeft.id = "client";
+  clientLeft.innerHTML = name + ' has left!';
+  infoTag.appendChild(clientLeft);
 }
 
 window.onload = function() {
   console.log('Connected');
 
-  var server = io.connect('http://172.16.23.245:3000');
+  var server = io.connect('http://172.16.21.4:3000');
 
   // Get the nickname
   var nick = '';
@@ -81,6 +89,8 @@ window.onload = function() {
   // the server acknowledged the message
   server.on('messageAck', function(data) {
     addMessage(data);
+    var inputObj = document.getElementById('inputMessage');
+    inputObj.value = '';
   });
 
   // the server is broadcasting a message
