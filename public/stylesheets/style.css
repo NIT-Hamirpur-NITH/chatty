@@ -52,9 +52,7 @@ body {
 }
 
 .chatArea #messages {
-  /*border-radius: 1em;*/
   background: lightgray;
-
   border-left: 1px lightgray solid;
   overflow-y: auto;
   word-wrap : break-word;
