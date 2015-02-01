@@ -7,29 +7,32 @@
 
 <body>
 
-<div class="chatty">
-  Chatty
-</div>
+<div class="container-fluid">
 
-<div class="chatArea">
+  <div class="chatty row">
+    <div class="col-md-12">
+      <div class="text-center">
+        <h1>Chatty</h1>
+        <p>A simple chat server</p>
+      </div>
+    </div>
+  </div> <!-- header -->
 
-  <div id='names'>
+  <div class="row chatArea">
+    <div id='names' class="col-md-2"></div> <!-- names -->
+    <div id='messages' class="col-md-10"></div><!-- messages -->
+  </div> <!-- chat area -->
 
+  <div class="inputSec">
+    <div class="row">
+    <input type="text" id="inputMessage" class="col-md-11">
+    <button id="submit" class="col-md-1 btn-primary"> Send </button>
+    </div>
   </div>
 
-  <div id='messages'>
-  </div>
+  <div id="info" class="row"></div>
 
-</div>
-
-<div class="inputSec">
-
-  <input type="text" id="inputMessage">
-  <button id="submit"> Send </button>
-
-</div>
-
-<div id="info"></div>
+</div> <!-- container -->
 
 <% include partials/templates/defaultJS.ejs %>
 <% include partials/templates/chatty.ejs %>

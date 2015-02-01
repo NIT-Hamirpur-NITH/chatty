@@ -1,59 +1,92 @@
-* {
-  margin: 0em;
-  padding: 0em;
+/* maven pro*/
+@import url(http://fonts.googleapis.com/css?family=Maven+Pro);
+
+/* oswald */
+@import url(http://fonts.googleapis.com/css?family=Oswald:300);
+
+/* ubuntu */
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+
+body {
+  background: #272525;
 }
 
 .chatty {
-  font-size: 5em;
+  background: #272525;
+  font-family: "Maven Pro";
+  padding: 0.5em;
+}
+
+.chatty h1 {
+  color: lightgray;
+  font-size: 3em;
+  padding: 0px;
+  margin: 0px;
+  text-shadow : 1px 1px 2px white;
+}
+
+.chatty p {
+  color: gray;
+  font-style: italic;
+  font-size: 1.3em;
   font-weight: bold;
-  text-align: center;
 }
 
 .chatArea {
   display: flex;
   height : 450px;
+  /*border-radius: 1em;*/
   box-sizing : border-box;
-  border-bottom: 1px gray solid;
-  border-top: 1px gray solid;
+  border-bottom: 1px lightgray solid;
+  border-top: 1px lightgray solid;
 }
 
+
 .chatArea #names {
-  width : 10%;
-  padding: 1em;
-  box-sizing : border-box;
-  text-align: left;
-  border-right: 1px gray solid;
-  overflow : auto;
+  font-family: "Ubuntu";
+  color : black;
+  background: gray;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-right: 1px lightgray solid;
 }
 
 .chatArea #messages {
-  width : 90%;
-  padding: 1em 2em;
-  text-align: left;
-  box-sizing : border-box;
-  overflow: auto;
+  /*border-radius: 1em;*/
+  background: lightgray;
+
+  border-left: 1px lightgray solid;
+  overflow-y: auto;
+  word-wrap : break-word;
+}
+
+#messages .messageRow {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+#messages .messageRow:nth-child(odd) {
+  background: darkgray;
 }
 
 #messages .messager {
-  display: inline-block;
-  text-align: right;
-  width:10%;
-  box-sizing : border-box;
+  font-family: "Oswald";
+  color : #272525;
 }
 
 #messages .message {
-  display: inline-block;
-  text-align: left;
-  width:90%;
-  padding-left: 0.5em;
-  box-sizing : border-box;
+  color : black;
 }
+
 
 .inputSec {
-  display: flex;
-  box-sizing : border-box;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }
 
+
+/*
 .inputSec #inputMessage {
   width: 85%;
   box-sizing : border-box;

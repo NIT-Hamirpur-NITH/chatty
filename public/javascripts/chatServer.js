@@ -10,14 +10,17 @@ function addClientName(name) {
 
 function addMessage(data) {
   var messages = document.getElementById('messages');
+  var row = document.createElement('div');
+  row.className = "row messageRow";
   var messager = document.createElement('div');
-  messager.className = 'messager';
+  messager.className = 'col-md-2 messager text-right';
   messager.innerHTML = data.messager + " : " ;
-  messages.appendChild(messager);
+  row.appendChild(messager);
   var message = document.createElement('div');
-  message.className = 'message';
+  message.className = 'col-md-10 message text-left';
   message.innerHTML = data.message;
-  messages.appendChild(message);
+  row.appendChild(message);
+  messages.appendChild(row);
   var scrollObj = document.getElementById('messages');
   scrollObj.scrollTop = scrollObj.scrollHeight;
   var inputObj = document.getElementById('inputMessage');
@@ -33,7 +36,7 @@ function removeUser(name) {
 window.onload = function() {
   console.log('Connected');
 
-  var server = io.connect('http://172.16.21.4:3000');
+  var server = io.connect('http://172.16.23.245:3000');
 
   // Get the nickname
   var nick = '';
@@ -41,6 +44,17 @@ window.onload = function() {
     nick = prompt('To join the conversation enter your nickname: ');
   }
 
+  // send the sever a new   message
+  var send = document.getElementById('submit');
+  send.addEventListener('click', function(event) {
+    var message = document.getElementById('inputMessage').value;
+    server.emit('message', {
+      messager : nick,
+      message : message
+    });
+  });
+
+  // manages focus on the input section
   var messageObj = document.getElementById('inputMessage');
   messageObj.focus();
   messageObj.addEventListener('keydown',function(event){
@@ -49,7 +63,7 @@ window.onload = function() {
     }
   });
 
-    // tell the server you want to join the server
+  // tell the server you want to join the server
   server.emit('join', {name : nick});
 
   // the sever acknowledges that you have joined the room
@@ -62,16 +76,6 @@ window.onload = function() {
   // a new user has joined
   server.on('newUser', function(data) {
     addClientName(data.name);
-  });
-
-  // send the sever a new   message
-  var send = document.getElementById('submit');
-  send.addEventListener('click', function(event) {
-    var message = document.getElementById('inputMessage').value;
-    server.emit('message', {
-      messager : nick,
-      message : message
-    });
   });
 
   // the server acknowledged the message
