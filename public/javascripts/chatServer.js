@@ -101,7 +101,8 @@ window.onload = function() {
 
   // if a user lefts chatty
   server.on('userLeft', function(data) {
-    removeUser(data.name);
+    if(data.name != undefined)
+      removeUser(data.name);
   });
 
 };
