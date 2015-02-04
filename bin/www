@@ -60,6 +60,17 @@ io.sockets.on('connection', function(client) {
 
   // when there is a message
   client.on('message', function(data) {
+    if(client._name == undefined) {
+      client._name = data.messager;
+      console.log(data.messager + ' joined.');
+      var user = {name : data.messager};
+      client.broadcast.emit('newUser', user);
+      redisClient.sadd('users', user.name);
+      redisClient.smembers('users', function(err, members) {
+        console.log(members);
+        client.emit('joined', members);
+      });
+    }
     console.log(data.messager + ' : ' + data.message);
     var dataStr = JSON.stringify(data);
     redisClient.lpush('messages', dataStr, function(err, response) {
@@ -72,9 +83,11 @@ io.sockets.on('connection', function(client) {
 
   // when a client disconnects
   client.on('disconnect', function() {
-    console.log(client._name + " left the show.");
-    redisClient.srem('users', client._name);
-    client.broadcast.emit('userLeft', {name : client._name});
+    if(client._name != undefined) {
+      console.log(client._name + " left the show.");
+      redisClient.srem('users', client._name);
+      client.broadcast.emit('userLeft', {name : client._name});
+    }
   });
 
 });
