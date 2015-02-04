@@ -1,4 +1,6 @@
 function addClientName(name) {
+  if(document.getElementById(name))
+    return;
   var names = document.getElementById('names');
   var newName = document.createElement('div');
   newName.className = 'name';
