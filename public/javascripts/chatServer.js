@@ -44,7 +44,7 @@ function removeUser(name) {
 window.onload = function() {
   console.log('Connected');
 
-  var server = io.connect('http://172.16.21.4:3000');
+  var server = io.connect('http://172.16.23.245:3000');
 
   // Get the nickname
   var nick = '';
