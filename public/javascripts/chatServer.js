@@ -7,11 +7,6 @@ function addClientName(name) {
   newName.id = name;
   newName.innerHTML = name;
   names.appendChild(newName);
-  var infoTag = document.getElementById('info');
-  var clientAdded = document.createElement('div');
-  clientAdded.id = "client";
-  clientAdded.innerHTML = name + ' is online';
-  infoTag.appendChild(clientAdded);
 }
 
 

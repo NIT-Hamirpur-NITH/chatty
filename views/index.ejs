@@ -3,39 +3,51 @@
 
 <head>
   <% include partials/templates/head.ejs %>
+
+  <!-- Custom stylesheet -->
+  <link rel="stylesheet" href="/stylesheets/chatStyle.css">
 </head>
 
 <body>
 
 <div class="container-fluid">
 
-  <div class="chatty row">
-    <div class="col-md-12">
-      <div class="text-center">
-        <h1>Chatty</h1>
-        <p>A simple chat server</p>
+  <div class="header row">
+
+    <div class="col-sm-12 logo">
+      <div class="row">
+        <h1 class="col-sm-12"> Chatty </h1>
       </div>
+    </div> <!-- logo -->
+
+    <div class="col-sm-12 inst">
+      <p>
+        Type you messages :)
+      </p>
     </div>
+
   </div> <!-- header -->
+
 
   <div class="row chatArea">
     <div id='names' class="col-md-2"></div> <!-- names -->
     <div id='messages' class="col-md-10"></div><!-- messages -->
   </div> <!-- chat area -->
 
-  <div class="inputSec">
-    <div class="row">
-    <input type="text" id="inputMessage" class="col-md-11">
-    <button id="submit" class="col-md-1 btn-primary"> Send </button>
+  <div class="inputSec row">
+    <div class="col-md-12">
+    <input type="text" id="inputMessage" class="col-md-10">
+    <button id="submit" class="col-md-2 btn btn-primary">Send</button>
     </div>
   </div>
-
-  <div id="info" class="row"></div>
 
 </div> <!-- container -->
 
 <% include partials/templates/defaultJS.ejs %>
 <% include partials/templates/chatty.ejs %>
+
+<!-- Chat script -->
+<script src="/javascripts/chatServer.js"></script>
 
 </body>
 
