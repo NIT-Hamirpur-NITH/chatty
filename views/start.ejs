@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include partials/templates/head.ejs %>
+
+  <!-- custom style for this page -->
+  <link rel="stylesheet" type="text/css" href="/stylesheets/startPage.css">
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+  <div class="header row">
+
+    <div class="col-sm-12 logo">
+      <div class="row">
+        <h1 class="col-sm-12"> Chatty </h1>
+      </div>
+    </div> <!-- logo -->
+
+    <div class="col-sm-12 inst">
+      <p>
+        Enter a nickname and a room to join get started.
+      </p>
+    </div>
+
+  </div> <!-- header -->
+
+
+  <div class="row main">
+
+    <div class="col-sm-6 col-sm-offset-3">
+
+      <form class="form-horizontal">
+
+        <div class="form-group">
+          <label for="nickname" class="col-sm-3 control-label"> Nickname </label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname" >
+          </div>
+        </div> <!-- nickname input -->
+
+        <div class="form-group">
+          <label for="room" class="col-sm-3 control-label"> Room </label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="room" placeholder="Enter a room to join" >
+          </div>
+        </div> <!-- Room input -->
+
+        <div class="form-group">
+            <div class="col-sm-12">
+              <input type="submit" class="btn btn-default col-sm-12" value="Enter">
+            </div>
+        </div> <!-- room input -->
+
+      </form> <!-- form -->
+
+    </div> <!-- col -->
+
+  </div> <!-- main -->
+
+
+</div> <!-- container -->
+
+<% include partials/templates/defaultJS.ejs %>
+<% include partials/templates/chatty.ejs %>
+
+<!-- Chat start  script -->
+<script src="/javascripts/chatStart.js"></script>
+
+</body>
+
+</html>

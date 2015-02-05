@@ -1,0 +1,118 @@
+@import url(http://fonts.googleapis.com/css?family=Play);
+@import url(http://fonts.googleapis.com/css?family=Poiret+One);
+@import url(http://fonts.googleapis.com/css?family=Oswald:300);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300);
+
+body {
+  background: #171515;
+}
+
+.header {
+  padding: 1em;
+}
+
+.header .logo h1 {
+  font-family: "Poiret One";
+  font-size: 3em;
+  padding-left: 0.5em;
+  color: #09ED52;
+}
+
+.header .inst {
+  font-family: "Oswald";
+  font-size: 1.2em;
+  line-height: 1.2em;
+  text-align: right;
+  color : gray;
+}
+
+.chatArea #names {
+  font-family: "Oswald";
+  color : gray;
+  font-size: 1.2em;
+  padding-left: 2em;
+  border-right: 1px solid #222;
+  height: 400px;
+}
+
+.chatArea #messages {
+  overflow-y: auto;
+  word-wrap : break-word;
+  max-height: 400px;
+}
+
+#messages .messageRow {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+#messages .messager {
+  font-family: "Play";
+  color : royalblue;
+  font-size: 1.2em;
+}
+
+#messages .messageRow:nth-child(even) .messager {
+  font-family: "Play";
+  color : #4AF05E;
+  font-size: 1.2em;
+}
+
+#messages .message {
+  font-family: "Open Sans";
+  font-size: 1.2em;
+  color: white;
+  font-weight: 100;
+}
+
+.inputSec {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
+
+#info {
+  font-family: "Oswald";
+  color : gray;
+  padding: 2em;
+  text-align: right;
+}
+
+input[type="text"]::-webkit-input-placeholder {
+    color: #222;
+}
+input[type="text"]:-moz-placeholder {
+    /* FF 4-18 */
+    color: #222;
+}
+input[type="text"]::-moz-placeholder {
+    /* FF 19+ */
+    color: #222;
+}
+input[type="text"]:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #222;
+}
+
+input[type="text"] {
+  height : 2em;
+  background: #171515;
+  border: none;
+  border-bottom: 2px solid #111;
+  border-radius: 0px;
+  font-family: "Play";
+  font-size: 1em;
+  color: #6F9AE8;
+}
+
+input[type="text"]:focus {
+  box-shadow : none;
+}
+
+#submit {
+  text-align: center;
+  background: #F0554A;
+  border: none;
+  color: white;
+  font-size: 1em;
+}
