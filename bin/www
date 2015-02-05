@@ -25,31 +25,98 @@ app.set('port', port);
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 
-
 redisClient.flushall();
+
+/**
+  * Handling the start page
+*/
+var startPage = io.of('/');
+
+startPage.on('connection', function(client) {
+
+  //  validation
+  client.on('check', function(data) {
+    var vald = {
+      prevent : false,
+      message : ""
+    };
+
+    console.log(data);
+
+    redisClient.sismember('rooms', data.room, function(err, result) {
+      // console.log("nor: " + result);
+      if(result == 0) {
+        vald.prevent = false;
+        vald.message = "";
+        // console.log(vald);
+        client.emit('checked', vald);
+      } else if(result == 1) {
+        redisClient.sismember(data.room + 'Users', data.nick, function(err, result) {
+          // console.log("yesr: " + result);
+          if(result == 0) {
+            vald.prevent = false;
+            vald.message = "";
+          } else {
+            vald.prevent = true;
+            vald.message = "There is a user in this room with that nick name. Select another nickname";
+          }
+          // console.log(vald);
+          client.emit('checked', vald);
+        });
+      }
+
+    });
+  });
+
+});
 
 /**
   * The chat server code
   */
+var chatServer = io.of('/chat');
 
-io.sockets.on('connection', function(client) {
+chatServer.on('connection', function(client) {
   console.log("Client connected");
 
   //  when a user joins
   client.on('join', function(data) {
     client._name = data.name;
+    client._room = data.room;
     console.log(data.name + ' joined.');
-    client.broadcast.emit('newUser', data);
-    redisClient.sadd('users', data.name);
-    redisClient.smembers('users', function(err, members) {
-      console.log(members);
-      client.emit('joined', members);
+
+    // join the room
+    client.join(data.room);
+
+    // check for the room
+    redisClient.sismember('rooms', data.room, function(err, result) {
+      // is the room does not exist create it
+      if(result === 0) {
+        redisClient.sadd('rooms', data.room);
+      }
     });
-    redisClient.lrange('messages', 0, -1, function(err, messages) {
+
+    // tell everyone in that room that a new user came
+    client.to(data.room).broadcast.emit('newUser', data.name);
+
+    // add the user to the database <room>Users
+    redisClient.sadd(data.room + 'Users', data.name);
+
+    // send the already joined users to the new user this will include the new user
+    // as we entered that in the above set
+    redisClient.smembers(data.room + 'Users', function(err, members) {
+      console.log(members);
+      members.forEach(function(member) {
+        console.log(member);
+        client.emit('joined', member);
+      });
+    });
+
+    // send the 20 recent messages to the new user from the current room only
+    redisClient.lrange(data.room + 'Messages', 0, -1, function(err, messages) {
        console.log('messages : ' + messages);
        if(messages.length > 0) {
         messages = messages.reverse();
-        messages.forEach(function(element, index){
+        messages.forEach(function(element, index) {
           var data = JSON.parse(element);
           console.log(data);
           client.emit('newMessage', data);
@@ -61,23 +128,43 @@ io.sockets.on('connection', function(client) {
   // when there is a message
   client.on('message', function(data) {
     if(client._name == undefined) {
-      client._name = data.messager;
+      client._name = data.name;
+      client._room = data.room;
       console.log(data.messager + ' joined.');
-      var user = {name : data.messager};
-      client.broadcast.emit('newUser', user);
-      redisClient.sadd('users', user.name);
-      redisClient.smembers('users', function(err, members) {
+
+      // join the room
+      client.join(data.room);
+
+      // check for the room
+      redisClient.sismember('rooms', data.room, function(err, result) {
+        // is the room does not exist create it
+        if(result === 0) {
+          redisClient.sadd('rooms', data.room);
+        }
+      });
+
+      // add the user to the database <room>Users
+      redisClient.sadd(data.room + 'Users', data.name);
+
+      // send the already joined users to the new user this will include the new user
+      // as we entered that in the above set
+      redisClient.smembers(data.room + 'Users', function(err, members) {
         console.log(members);
-        client.emit('joined', members);
+        members.forEach(function(member) {
+          client.emit('joined', member);
+        });
       });
     }
+
     console.log(data.messager + ' : ' + data.message);
+
     var dataStr = JSON.stringify(data);
-    redisClient.lpush('messages', dataStr, function(err, response) {
-      redisClient.ltrim('messages', 0, 19);
+
+    redisClient.lpush(data.room + 'Messages', dataStr, function(err, response) {
+      redisClient.ltrim(data.room + 'Messages', 0, 19);
       console.log(response);
     });
-    client.broadcast.emit('newMessage', data);
+    client.to(data.room).broadcast.emit('newMessage', data);
     client.emit('messageAck', data);
   });
 
@@ -85,8 +172,9 @@ io.sockets.on('connection', function(client) {
   client.on('disconnect', function() {
     if(client._name != undefined) {
       console.log(client._name + " left the show.");
-      redisClient.srem('users', client._name);
-      client.broadcast.emit('userLeft', {name : client._name});
+      redisClient.srem(client._room + "Users", client._name);
+      client.leave(client._room);
+      client.to(client._room).broadcast.emit('userLeft', client._name);
     }
   });
 

@@ -33,25 +33,26 @@
 
     <div class="col-sm-6 col-sm-offset-3">
 
-      <form class="form-horizontal">
-
-        <div class="form-group">
-          <label for="nickname" class="col-sm-3 control-label"> Nickname </label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="nickname" placeholder="Enter your nickname" >
-          </div>
-        </div> <!-- nickname input -->
+      <form class="form-horizontal" action="/chat" method="post" id="form">
 
         <div class="form-group">
           <label for="room" class="col-sm-3 control-label"> Room </label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="room" placeholder="Enter a room to join" >
+            <input type="text" name="room" class="form-control" id="room" placeholder="Enter a room to join" required>
           </div>
         </div> <!-- Room input -->
 
+
+        <div class="form-group">
+          <label for="nickname" class="col-sm-3 control-label"> Nickname </label>
+          <div class="col-sm-9">
+            <input type="text" name="nick" class="form-control" id="nickname" placeholder="Enter your nickname" required>
+          </div>
+        </div> <!-- nickname input -->
+
         <div class="form-group">
             <div class="col-sm-12">
-              <input type="submit" class="btn btn-default col-sm-12" value="Enter">
+              <button class="btn btn-default col-sm-12" id="enter" > Enter </button>
             </div>
         </div> <!-- room input -->
 
@@ -61,6 +62,10 @@
 
   </div> <!-- main -->
 
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3" id="info"></div>
+  </div>
+
 
 </div> <!-- container -->
 
@@ -68,7 +73,7 @@
 <% include partials/templates/chatty.ejs %>
 
 <!-- Chat start  script -->
-<script src="/javascripts/chatStart.js"></script>
+<script src="/javascripts/start.js"></script>
 
 </body>
 

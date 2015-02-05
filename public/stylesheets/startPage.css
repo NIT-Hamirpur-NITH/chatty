@@ -63,7 +63,7 @@ input[type="text"]:focus {
   box-shadow : none;
 }
 
-input[type="submit"] {
+#enter {
   background: #F0554A;
   border: none;
   margin-top: 1em;
@@ -71,7 +71,7 @@ input[type="submit"] {
   font-size: 1.6em;
 }
 
-input[type="submit"]:hover, input[type="submit"]:focus {
+#enter:hover, #enter:focus {
   background: #4AF05E;
   border: none;
   margin-top: 1em;
@@ -79,5 +79,11 @@ input[type="submit"]:hover, input[type="submit"]:focus {
   font-size: 1.5em;
 }
 
-
+#info {
+  color: gray;
+  font-family: "Play";
+  font-weight: 100;
+  text-align: center;
+  font-size: 1.3em;
+}
 

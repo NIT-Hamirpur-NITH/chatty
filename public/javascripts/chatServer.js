@@ -1,3 +1,8 @@
+function showRoomName() {
+  var roomp = document.getElementById('room-name');
+  roomp.innerHTML = room;
+}
+
 function addClientName(name) {
   if(document.getElementById(name))
     return;
@@ -16,7 +21,7 @@ function addMessage(data) {
   row.className = "row messageRow";
   var messager = document.createElement('div');
   messager.className = 'col-md-2 messager text-right';
-  messager.innerHTML = data.messager + " : " ;
+  messager.innerHTML = data.name + " : " ;
   row.appendChild(messager);
   var message = document.createElement('div');
   message.className = 'col-md-10 message text-left';
@@ -40,23 +45,14 @@ function removeUser(name) {
 
 window.onload = function() {
   console.log('Connected');
+  console.log(room + " : " + nick)
 
-  var server = io.connect('http://172.16.23.245:3000');
+  var server = io.connect('http://172.16.23.245:3000/chat');
 
-  // Get the nickname
-  var nick = '';
-  while (nick === '') {
-    nick = prompt('To join the conversation enter your nickname: ');
-  }
-
-  // send the sever a new   message
-  var send = document.getElementById('submit');
-  send.addEventListener('click', function(event) {
-    var message = document.getElementById('inputMessage').value;
-    server.emit('message', {
-      messager : nick,
-      message : message
-    });
+  // tell the server you want to join the server
+  server.emit('join', {
+    'name' : nick,
+    'room' : room
   });
 
   // manages focus on the input section
@@ -68,19 +64,26 @@ window.onload = function() {
     }
   });
 
-  // tell the server you want to join the server
-  server.emit('join', {name : nick});
-
-  // the sever acknowledges that you have joined the room
-  server.on('joined', function(data) {
-    data.forEach(function(name) {
-      addClientName(name);
+  // send the sever a new  message
+  var send = document.getElementById('submit');
+  send.addEventListener('click', function(event) {
+    var message = document.getElementById('inputMessage').value;
+    server.emit('message', {
+      'room' : room,
+      'name' : nick,
+      'message' : message
     });
   });
 
+  // the sever acknowledges that you have joined the room
+  server.on('joined', function(name) {
+    addClientName(name);
+    showRoomName();
+  });
+
   // a new user has joined
-  server.on('newUser', function(data) {
-    addClientName(data.name);
+  server.on('newUser', function(name) {
+    addClientName(name);
   });
 
   // the server acknowledged the message
@@ -97,9 +100,9 @@ window.onload = function() {
   });
 
   // if a user lefts chatty
-  server.on('userLeft', function(data) {
-    if(data.name != undefined)
-      removeUser(data.name);
+  server.on('userLeft', function(name) {
+    if(name != undefined)
+      removeUser(name);
   });
 
 };

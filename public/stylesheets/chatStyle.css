@@ -19,11 +19,11 @@ body {
 }
 
 .header .inst {
-  font-family: "Oswald";
-  font-size: 1.2em;
-  line-height: 1.2em;
+  font-family: "Open Sans";
+  font-size: 1.3em;
+  line-height: 1.3em;
   text-align: right;
-  color : gray;
+  color : #990;
 }
 
 .chatArea #names {

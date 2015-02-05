@@ -21,7 +21,7 @@
     </div> <!-- logo -->
 
     <div class="col-sm-12 inst">
-      <p>
+      <p id="room-name">
         Type you messages :)
       </p>
     </div>
@@ -42,6 +42,11 @@
   </div>
 
 </div> <!-- container -->
+
+<script type="text/javascript">
+  var nick = "<%- nickname %>";
+  var room = "<%- room %>";
+</script>
 
 <% include partials/templates/defaultJS.ejs %>
 <% include partials/templates/chatty.ejs %>
