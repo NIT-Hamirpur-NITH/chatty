@@ -37,10 +37,23 @@ function removeUser(name) {
   var user = document.getElementById(name);
   names.removeChild(user);
   var infoTag = document.getElementById('info');
-  var clientLeft = document.createElement('div');
-  clientLeft.id = "client";
-  clientLeft.innerHTML = name + ' has left!';
-  infoTag.appendChild(clientLeft);
+}
+
+function addInfo(text) {
+  var messages = document.getElementById('messages');
+  var row = document.createElement('div');
+  row.className = "row messageRow";
+  var messager = document.createElement('div');
+  messager.className = 'col-md-2';
+  messager.innerHTML = "";
+  row.appendChild(messager);
+  var message = document.createElement('div');
+  message.className = 'col-md-10 message text-right info';
+  message.innerHTML = text;
+  row.appendChild(message);
+  messages.appendChild(row);
+  var scrollObj = document.getElementById('messages');
+  scrollObj.scrollTop = scrollObj.scrollHeight;
 }
 
 window.onload = function() {
@@ -84,6 +97,7 @@ window.onload = function() {
   // a new user has joined
   server.on('newUser', function(name) {
     addClientName(name);
+    addInfo(name + " joind the room.");
   });
 
   // the server acknowledged the message
@@ -101,8 +115,10 @@ window.onload = function() {
 
   // if a user lefts chatty
   server.on('userLeft', function(name) {
-    if(name != undefined)
+    if(name != undefined) {
       removeUser(name);
+      addInfo(name + " left the room.");
+    }
   });
 
 };
