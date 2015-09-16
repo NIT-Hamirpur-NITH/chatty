@@ -5,7 +5,7 @@ function message(text) {
 
 window.onload = function() {
 
-  var server = io.connect('http://172.16.23.245:3000');
+  var server = io.connect('http://172.16.16.145:3000');
 
   var form = document.getElementById('form');
   var enter = document.getElementById('enter');
