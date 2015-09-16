@@ -60,7 +60,7 @@ window.onload = function() {
   console.log('Connected');
   console.log(room + " : " + nick)
 
-  var server = io.connect('http://172.16.16.145:3000/chat');
+  var server = io.connect('http://172.16.30.30:3000/chat');
 
   // tell the server you want to join the server
   server.emit('join', {
