@@ -1,7 +1,8 @@
 # chatty
 
-[![Join the chat at https://gitter.im/chattercock/chatty](https://badges.gitter.im/chattercock/chatty.svg)](https://gitter.im/chattercock/chatty?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-This is a simple chat server
+Access the live running application at http://glug.nith.ac.in:3000
+
+This is a simple chat server that allows to create room and chat anonymously.
 
 ## Stack Used
 1. nodejs
@@ -9,3 +10,4 @@ This is a simple chat server
 3. socket.io
 4. redis
 5. bootstrap
+
