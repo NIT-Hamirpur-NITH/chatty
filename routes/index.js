@@ -14,4 +14,9 @@ router.post('/chat', function(req, res, next) {
   });
 });
 
+/*Redirect illegal routes to '/'*/
+router.get('/*', function(req,res,next) {
+  res.redirect('/');
+});
+
 module.exports = router;
